@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "fv01JG2IGMk=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\MIKKSTER\\Desktop\\csharp\\ObjectOrientedDesign\\Presentation.Api\\Presentation.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\MIKKSTER\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.4\\microsoft.aspnetcore.openapi.10.0.4.nupkg.sha512",
+    "C:\\Users\\MIKKSTER\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
