@@ -6,7 +6,7 @@ public class InvoiceDto
     public InvoiceDto(Domain.Aggregates.BookingAggregate.Invoice invoice)
     {
         InvoiceId = invoice.InvoiceId;
-        BookingId = invoice.Booking.BookingId;
+        BookingId = invoice.BookingId;
         AmountDue = invoice.AmountDue;
         IssueDate = invoice.IssueDate;
         Status = invoice.Status;

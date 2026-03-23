@@ -14,9 +14,8 @@ public class Invoice
     private readonly List<PaymentRecord> _payments = new();
     public IReadOnlyCollection<PaymentRecord> Payments => _payments.AsReadOnly();
 
-    internal Invoice(int bookingId, decimal amountDue, DateTime issueDate)
+    internal Invoice( decimal amountDue, DateTime issueDate)
     {
-        BookingId = bookingId;
         AmountDue = amountDue;
         IssueDate = issueDate;
     }

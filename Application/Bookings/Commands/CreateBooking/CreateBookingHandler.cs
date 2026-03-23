@@ -9,18 +9,16 @@ public class CreateBookingHandler
     private readonly IBookingRepository _bookingRepo;
     private readonly ICustomerRepository _customerRepo;
     private readonly IRoomRepository _roomRepo;
-    private readonly IInvoiceService _invoiceService;
 
     public CreateBookingHandler(
         IBookingRepository bookingRepo,
         ICustomerRepository customerRepo,
-        IRoomRepository roomRepo,
-        IInvoiceService invoiceService)
+        IRoomRepository roomRepo
+        )
     {
         _bookingRepo = bookingRepo;
         _customerRepo = customerRepo;
         _roomRepo = roomRepo;
-        _invoiceService = invoiceService;
     }
 
     public async Task<BookingDto> Handle(CreateBookingCommand command)
@@ -42,17 +40,19 @@ public class CreateBookingHandler
 
 
         var overlapping = await _bookingRepo.GetBookingsInDateRangeAsync(dto.StartDate, dto.EndDate);
+
         if (overlapping.Any(b => b.RoomId == dto.RoomId))
             throw new ApplicationException("Room not available");
 
 
-        var booking = new Booking(dto.RoomId, customer.CustomerId, dto.StartDate, dto.EndDate, dto.NumPersons, dto.ExtraBedsCount);
+        var booking = new Booking(dto.RoomId, customer.CustomerId, dto.StartDate, dto.EndDate, dto.NumPersons, dto.ExtraBedsCount ?? 0);
+
         booking.CalculateTotal(room.PricePerNight);
+
+        booking.GenerateInvoice(DateTime.UtcNow);
 
         await _bookingRepo.CreateAsync(booking);
 
-    
-        await _invoiceService.CreateInvoiceAsync(booking.BookingId, booking.TotalPrice);
 
         return new BookingDto(booking);
     }

@@ -19,5 +19,5 @@ public interface IBookingRepository : IRepositoryBase<Booking, int>
         int? guests,
         CancellationToken ct = default);
 
-
+    Task<IReadOnlyList<Booking>> GetBookingsWithUnpaidInvoicesOlderThanAsync(DateTime threshold);
 }

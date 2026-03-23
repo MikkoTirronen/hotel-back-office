@@ -1,34 +1,34 @@
 using Application.DTOs;
 using Domain.Abstractions.Repositories;
+using Domain.Exceptions;
+
 namespace Application.Bookings.Queries.GetBookingById;
 
-public class GetBookingByIdHandler : IRequestHandler<GetBookingByIdQuery, BookingDto?>
+public class GetBookingByIdHandler
 {
     private readonly IBookingRepository _bookingRepository;
     private readonly IRoomRepository _roomRepository;
     private readonly ICustomerRepository _customerRepository;
-    private readonly IInvoiceRepository _invoiceRepository;
 
     public GetBookingByIdHandler(
         IBookingRepository bookingRepository,
         IRoomRepository roomRepository,
-        ICustomerRepository customerRepository,
-        IInvoiceRepository invoiceRepository)
+        ICustomerRepository customerRepository)
     {
         _bookingRepository = bookingRepository;
         _roomRepository = roomRepository;
         _customerRepository = customerRepository;
-        _invoiceRepository = invoiceRepository;
     }
 
-    public async Task<BookingDto?> Handle(GetBookingByIdQuery query, CancellationToken ct)
+    public async Task<BookingDto?> HandleAsync(int bookingId)
     {
-        var booking = await _bookingRepository.GetBookingDetailsAsync(query.BookingId);
+        var booking = await _bookingRepository.GetBookingDetailsAsync(bookingId);
         if (booking == null) return null;
 
         var room = await _roomRepository.GetByIdAsync(booking.RoomId);
         var customer = await _customerRepository.GetByIdAsync(booking.CustomerId);
-        var invoice = await _invoiceRepository.GetByBookingIdAsync(booking.BookingId);
+
+        var invoice = booking.Invoice;
 
         return new BookingDto(booking)
         {
