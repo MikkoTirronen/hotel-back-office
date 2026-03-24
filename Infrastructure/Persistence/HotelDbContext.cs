@@ -15,50 +15,51 @@ public class HotelDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Booking>(entity =>
-            {
-                entity.HasKey(b => b.BookingId);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(HotelDbContext).Assembly);
+        // modelBuilder.Entity<Booking>(entity =>
+        //     {
+        //         entity.HasKey(b => b.BookingId);
 
-                entity.Property(b => b.RoomId).IsRequired();
-                entity.Property(b => b.CustomerId).IsRequired();
-                entity.Property(b => b.StartDate).IsRequired();
-                entity.Property(b => b.EndDate).IsRequired();
-                entity.Property(b => b.NumPersons).IsRequired();
-                entity.Property(b => b.ExtraBedsCount).IsRequired();
-                entity.Property(b => b.TotalPrice).IsRequired();
-                entity.Property(b => b.Status)
-                    .HasConversion<string>()
-                    .IsRequired();
+        //         entity.Property(b => b.RoomId).IsRequired();
+        //         entity.Property(b => b.CustomerId).IsRequired();
+        //         entity.Property(b => b.StartDate).IsRequired();
+        //         entity.Property(b => b.EndDate).IsRequired();
+        //         entity.Property(b => b.NumPersons).IsRequired();
+        //         entity.Property(b => b.ExtraBedsCount).IsRequired();
+        //         entity.Property(b => b.TotalPrice).IsRequired();
+        //         entity.Property(b => b.Status)
+        //             .HasConversion<string>()
+        //             .IsRequired();
 
-                // Map backing field for Invoice if you want EF to store it
-                entity.OwnsOne(typeof(Invoice), "_invoice", inv =>
-                {
-                    inv.Property("Amount").HasColumnName("InvoiceAmount");
-                    inv.Property("IssueDate").HasColumnName("InvoiceDate");
-                });
+        //         // Map backing field for Invoice if you want EF to store it
+        //         entity.OwnsOne(typeof(Invoice), "_invoice", inv =>
+        //         {
+        //             inv.Property("Amount").HasColumnName("InvoiceAmount");
+        //             inv.Property("IssueDate").HasColumnName("InvoiceDate");
+        //         });
 
-                entity.HasOne<Customer>() // Booking -> Customer
-                    .WithMany(c => c.Bookings)
-                    .HasForeignKey(b => b.CustomerId);
-            });
+        //         entity.HasOne<Customer>() // Booking -> Customer
+        //             .WithMany(c => c.Bookings)
+        //             .HasForeignKey(b => b.CustomerId);
+        //     });
 
-        // Customer Aggregate
-        modelBuilder.Entity<Customer>(c =>
-        {
-            c.HasKey(x => x.CustomerId);
-            c.Property(x => x.Name).IsRequired().HasMaxLength(100);
-            c.Property(x => x.Email).IsRequired().HasMaxLength(100);
-            c.Property(x => x.Phone).HasMaxLength(20);
-        });
+        // // Customer Aggregate
+        // modelBuilder.Entity<Customer>(c =>
+        // {
+        //     c.HasKey(x => x.CustomerId);
+        //     c.Property(x => x.Name).IsRequired().HasMaxLength(100);
+        //     c.Property(x => x.Email).IsRequired().HasMaxLength(100);
+        //     c.Property(x => x.Phone).HasMaxLength(20);
+        // });
 
-        // Room Aggregate
-        modelBuilder.Entity<Room>(r =>
-        {
-            r.HasKey(x => x.RoomId);
-            r.Property(x => x.PricePerNight).IsRequired();
-            r.Property(x => x.BaseCapacity).IsRequired();
-            r.Property(x => x.MaxExtraBeds).IsRequired();
-            r.Property(x => x.Active).IsRequired();
-        });
+        // // Room Aggregate
+        // modelBuilder.Entity<Room>(r =>
+        // {
+        //     r.HasKey(x => x.RoomId);
+        //     r.Property(x => x.PricePerNight).IsRequired();
+        //     r.Property(x => x.BaseCapacity).IsRequired();
+        //     r.Property(x => x.MaxExtraBeds).IsRequired();
+        //     r.Property(x => x.Active).IsRequired();
+        // });
     }
 }

@@ -27,7 +27,7 @@ public class Booking
         NumPersons = numPersons;
         ExtraBedsCount = extraBeds;
         Status = BookingStatus.Pending;
-        _invoice = new Invoice(TotalPrice, DateTime.UtcNow);
+        _invoice = null;
     }
     public void UpdateDates(DateTime start, DateTime end)
     {
@@ -61,6 +61,9 @@ public class Booking
             throw new DomainException("Cannot change room after confirmation.");
 
         RoomId = roomId;
+
+        TotalPrice = 0;
+        _invoice = null;
     }
     public void Cancel()
     {
@@ -78,11 +81,24 @@ public class Booking
         Status = BookingStatus.Confirmed;
     }
 
-public void GenerateInvoice(DateTime issueDate)
-{
-    if (_invoice != null)
-        throw new DomainException("Invoice already exists");
+    // public void Confirm(decimal pricePerNight)
+    // {
+    //     if (Status != BookingStatus.Pending)
+    //         throw new DomainException("Only pending bookings can be confirmed.");
 
-    _invoice = new Invoice(TotalPrice, issueDate);
-}
+    //     int nights = (EndDate - StartDate).Days;
+    //     if (nights <= 0) nights = 1;
+
+    //     TotalPrice = pricePerNight * nights;
+
+    //     Status = BookingStatus.Confirmed;
+    // }
+
+    public void GenerateInvoice(DateTime issueDate)
+    {
+        if (_invoice != null)
+            throw new DomainException("Invoice already exists");
+
+        _invoice = new Invoice(TotalPrice, issueDate);
+    }
 }
