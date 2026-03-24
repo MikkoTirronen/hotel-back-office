@@ -15,7 +15,6 @@ public class CustomerController : ControllerBase
         _customerService = customerService;
     }
 
-    // --- Create a new customer ---
     [HttpPost]
     public async Task<IActionResult> CreateCustomer([FromBody] CustomerDto dto)
     {
@@ -23,7 +22,6 @@ public class CustomerController : ControllerBase
         return Ok(new { CustomerId = id });
     }
 
-    // --- Update customer info ---
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateCustomer(int id, [FromBody] CustomerDto dto)
     {
@@ -31,7 +29,6 @@ public class CustomerController : ControllerBase
         return NoContent();
     }
 
-    // --- Get all customers ---
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -39,7 +36,6 @@ public class CustomerController : ControllerBase
         return Ok(customers);
     }
 
-    // --- Search customers ---
     [HttpGet("search")]
     public async Task<IActionResult> Search([FromQuery] string search)
     {

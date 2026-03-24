@@ -19,7 +19,6 @@ public class BookingsController : ControllerBase
         _roomService = roomService;
     }
 
-    // --- Create a new booking ---
     [HttpPost]
     public async Task<IActionResult> CreateBooking([FromBody] BookingDto dto)
     {
@@ -27,7 +26,6 @@ public class BookingsController : ControllerBase
         return Ok(new { BookingId = bookingId });
     }
 
-    // --- Get booking by ID ---
     [HttpGet("{id}")]
     public async Task<IActionResult> GetBooking(int id)
     {
@@ -37,7 +35,6 @@ public class BookingsController : ControllerBase
         return Ok(booking);
     }
 
-    // --- Cancel a booking ---
     [HttpPost("{id}/cancel")]
     public async Task<IActionResult> CancelBooking(int id)
     {
@@ -45,7 +42,6 @@ public class BookingsController : ControllerBase
         return NoContent();
     }
 
-    // --- Update a booking ---
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateBooking(int id, [FromBody] UpdateBookingDto dto)
     {
@@ -60,7 +56,6 @@ public class BookingsController : ControllerBase
         return NoContent();
     }
 
-    // --- Get available rooms for a date range ---
     [HttpGet("available-rooms")]
     public async Task<IActionResult> GetAvailableRooms([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
     {
