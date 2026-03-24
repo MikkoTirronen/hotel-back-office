@@ -1,5 +1,5 @@
-using System.Runtime.CompilerServices;
-using Domain.Aggregates.RoomAggregate;
+using Domain.Aggregates.Room;
+
 namespace Application.DTOs;
 
 public class RoomDto
@@ -12,7 +12,7 @@ public class RoomDto
         BaseCapacity = room.BaseCapacity;
         MaxExtraBeds = room.MaxExtraBeds;
         Active = room.Active;
-        amenities = room.Amenities;
+        Amenities = room.Amenities.Select(a => a.Value).ToList();
     }
 
     public int RoomId { get; set; }
@@ -20,6 +20,7 @@ public class RoomDto
     public decimal PricePerNight { get; set; }
     public int BaseCapacity { get; set; }
     public int MaxExtraBeds { get; set; }
-    IEnumerable<string>? amenities = null;
     public bool Active { get; set; }
+
+    public IEnumerable<string> Amenities { get; set; } = new List<string>();
 }

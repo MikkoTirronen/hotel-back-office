@@ -1,7 +1,8 @@
 using Domain.Enums;
-using Domain.Aggregates.BookingAggregate;
+using Domain.Aggregates.Booking;
 
 namespace Application.DTOs;
+
 public class BookingDto
 {
     public BookingDto(Booking booking)

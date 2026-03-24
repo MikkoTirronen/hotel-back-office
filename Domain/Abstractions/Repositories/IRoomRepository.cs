@@ -1,4 +1,4 @@
-using Domain.Aggregates.RoomAggregate;
+using Domain.Aggregates.Room;
 namespace Domain.Abstractions.Repositories;
 
 public interface IRoomRepository : IRepositoryBase<Room, int>

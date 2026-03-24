@@ -1,6 +1,6 @@
 using Domain.Enums;
 using Domain.Exceptions;
-namespace Domain.Aggregates.BookingAggregate;
+namespace Domain.Aggregates.Booking;
 
 public class Booking
 {
@@ -15,7 +15,7 @@ public class Booking
     public BookingStatus Status { get; private set; } = BookingStatus.Pending;
     private Invoice? _invoice;
     public Invoice? Invoice => _invoice;
-    public Booking(int roomId, int customerId, DateTime startDate, DateTime endDate, int numPersons, int extraBeds = 0)
+    public Booking(int roomId, int customerId, DateTime startDate, DateTime endDate, int numPersons, int extraBedsCount = 0)
     {
         if (endDate <= startDate) throw new DomainException("End date must be after start date.");
         if (numPersons <= 0) throw new DomainException("Number of persons must be at least 1.");
@@ -25,7 +25,7 @@ public class Booking
         StartDate = startDate;
         EndDate = endDate;
         NumPersons = numPersons;
-        ExtraBedsCount = extraBeds;
+        ExtraBedsCount = extraBedsCount;
         Status = BookingStatus.Pending;
         _invoice = null;
     }

@@ -1,6 +1,6 @@
 namespace Domain.Abstractions.Repositories;
 
-using Domain.Aggregates.BookingAggregate;
+using Domain.Aggregates.Booking;
 public interface IBookingRepository : IRepositoryBase<Booking, int>
 {
     Task<Booking?> GetBookingDetailsAsync(int bookingId);
@@ -9,7 +9,7 @@ public interface IBookingRepository : IRepositoryBase<Booking, int>
     DateTime start,
     DateTime end,
     CancellationToken ct = default);
-    
+
     Task<IReadOnlyList<Booking>> SearchAsync(
         string? customer,
         string? room,

@@ -1,5 +1,5 @@
 using Domain.Abstractions.Repositories;
-using Domain.Aggregates.CustomerAggregate;
+using Domain.Aggregates.Customer;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,7 +42,7 @@ public class CustomerRepository : ICustomerRepository
 
         if (!string.IsNullOrWhiteSpace(search))
         {
-            query = query.Where(c => c.Name.Contains(search) || c.Email.Contains(search) || 
+            query = query.Where(c => c.Name.Contains(search) || c.Email.Contains(search) ||
                                      (c.Phone != null && c.Phone.Contains(search)));
         }
 

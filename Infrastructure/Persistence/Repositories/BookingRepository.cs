@@ -1,5 +1,5 @@
 using Domain.Abstractions.Repositories;
-using Domain.Aggregates.BookingAggregate;
+using Domain.Aggregates.Booking;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 

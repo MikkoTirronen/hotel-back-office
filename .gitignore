@@ -1,0 +1,79 @@
+# -----------------------
+# .NET / C# general
+# -----------------------
+bin/
+obj/
+out/
+*.exe
+*.dll
+*.pdb
+*.mdb
+*.log
+*.vsix
+*.nupkg
+*.snupkg
+
+# -----------------------
+# User-specific / IDE
+# -----------------------
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# -----------------------
+# Rider / JetBrains
+# -----------------------
+.idea/
+*.iml
+*.iws
+out/
+.idea_modules/
+.idea/.name
+*.ipr
+
+# -----------------------
+# OS files
+# -----------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------
+# EF Core migrations (optional)
+# -----------------------
+# If you want to keep them, comment out the next line
+Infrastructure/Persistence/Migrations/*
+
+# -----------------------
+# Docker
+# -----------------------
+docker-compose.override.yml
+*.env
+**/volumes/*
+*.log
+
+# -----------------------
+# Visual Studio / Rider caches
+# -----------------------
+.vs/
+*.user
+*.cache
+*.suo
+*.sln.docstates
+
+# -----------------------
+# NuGet
+# -----------------------
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# -----------------------
+# Resharper
+# -----------------------
+_ReSharper*/
+*.DotSettings.user

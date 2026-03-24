@@ -1,6 +1,6 @@
-using Domain.Aggregates.BookingAggregate;
-using Domain.Aggregates.CustomerAggregate;
-using Domain.Aggregates.RoomAggregate;
+using Domain.Aggregates.Booking;
+using Domain.Aggregates.Customer;
+using Domain.Aggregates.Room;
 using Domain.Enums;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -47,7 +47,7 @@ public static class DbSeeder
             startDate: DateTime.UtcNow.Date.AddDays(1),
             endDate: DateTime.UtcNow.Date.AddDays(3),
             numPersons: 2,
-            extraBeds: 1
+            extraBedsCount: 1
         );
 
         await context.Bookings.AddRangeAsync(booking1, booking2);

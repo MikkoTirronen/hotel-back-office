@@ -1,34 +1,22 @@
 using Domain.Enums;
 using Domain.Exceptions;
-namespace Domain.Aggregates.BookingAggregate;
+namespace Domain.Aggregates.Booking;
 
 public class Invoice
 {
-    public int InvoiceId { get; private set; }
-    public int BookingId { get; private set; }  // only ID, not full Booking
+    private readonly List<PaymentRecord> _payments = new();
+    public IReadOnlyCollection<PaymentRecord> Payments => _payments.AsReadOnly();
+    public int Id { get; private set; }
+    public int BookingId { get; private set; }
     public decimal AmountDue { get; private set; }
     public DateTime IssueDate { get; private set; }
     public DateTime? DueDate { get; private set; }
     public InvoiceStatus Status { get; private set; } = InvoiceStatus.Unpaid;
 
-    private readonly List<PaymentRecord> _payments = new();
-    public IReadOnlyCollection<PaymentRecord> Payments => _payments.AsReadOnly();
-
-    internal Invoice( decimal amountDue, DateTime issueDate)
+    internal Invoice(decimal amountDue, DateTime issueDate)
     {
         AmountDue = amountDue;
         IssueDate = issueDate;
-    }
-
-    public void AddPayment(decimal amount, DateTime paymentDate, string? method = null)
-    {
-        var payment = new PaymentRecord(this, amount, paymentDate, method);
-        _payments.Add(payment);
-
-        if (_payments.Sum(p => p.AmountPaid) >= AmountDue)
-            Status = InvoiceStatus.Paid;
-        else
-            Status = InvoiceStatus.Partial;
     }
 
     public void UpdateAmountDue(decimal newAmount)
@@ -43,5 +31,15 @@ public class Invoice
             Status = InvoiceStatus.Partial;
         else
             Status = InvoiceStatus.Unpaid;
+    }
+    public void AddPayment(decimal amount, DateTime paymentDate, string? method = null)
+    {
+        if (amount <= 0) throw new InvalidOperationException("Payment must be positive.");
+        if (amount > AmountDue) throw new InvalidOperationException("Payment cannot exceed amount due.");
+
+        var payment = new PaymentRecord(amount, paymentDate, method);
+        _payments.Add(payment);
+
+        AmountDue -= amount;
     }
 }

@@ -1,6 +1,6 @@
 namespace Domain.Abstractions.Repositories;
 
-using Domain.Aggregates.CustomerAggregate;
+using Domain.Aggregates.Customer;
 public interface ICustomerRepository : IRepositoryBase<Customer, int>
 {
     Task<Customer?> GetByEmailAsync(string email, CancellationToken ct = default);

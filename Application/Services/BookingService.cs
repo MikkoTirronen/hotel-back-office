@@ -1,6 +1,6 @@
 using Application.DTOs;
 using Domain.Abstractions.Repositories;
-using Domain.Aggregates.BookingAggregate;
+using Domain.Aggregates.Booking;
 
 public class BookingService
 {
@@ -51,8 +51,8 @@ public class BookingService
     {
         return await _bookingRepo.GetBookingDetailsAsync(bookingId);
     }
-     
-     // --- Cancel a booking ---
+
+    // --- Cancel a booking ---
     public async Task CancelBookingAsync(int bookingId)
     {
         var booking = await _bookingRepo.GetByIdAsync(bookingId)

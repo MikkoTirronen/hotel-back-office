@@ -1,18 +1,16 @@
-using Domain.Enums;
 
-namespace Domain.Aggregates.BookingAggregate;
+namespace Domain.Aggregates.Booking;
 
 public class PaymentRecord
 {
     public int PaymentId { get; private set; }
-    public Invoice Invoice { get; private set; } = null!;
+    public int InvoiceId { get; private set; }
     public decimal AmountPaid { get; private set; }
     public DateTime PaymentDate { get; private set; }
     public string? PaymentMethod { get; private set; }
-
-    internal PaymentRecord(Invoice invoice, decimal amount, DateTime paymentDate, string? method)
+    private PaymentRecord() { }
+    internal PaymentRecord(decimal amount, DateTime paymentDate, string? method)
     {
-        Invoice = invoice;
         AmountPaid = amount;
         PaymentDate = paymentDate;
         PaymentMethod = method;

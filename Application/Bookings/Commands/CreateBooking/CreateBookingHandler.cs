@@ -1,7 +1,7 @@
-using Domain.Aggregates.BookingAggregate;
+using Domain.Aggregates.Booking;
 using Domain.Abstractions.Repositories;
 using Application.DTOs;
-using Domain.Aggregates.CustomerAggregate;
+using Domain.Aggregates.Customer;
 namespace Application.Bookings.Commands.CreateBooking;
 
 public class CreateBookingHandler

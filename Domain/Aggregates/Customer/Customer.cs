@@ -1,6 +1,6 @@
-namespace Domain.Aggregates.CustomerAggregate;
+namespace Domain.Aggregates.Customer;
 
-using Domain.Aggregates.BookingAggregate;
+using Domain.Aggregates.Booking;
 public class Customer
 {
     public int CustomerId { get; private set; }

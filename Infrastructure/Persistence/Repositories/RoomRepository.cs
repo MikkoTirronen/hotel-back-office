@@ -1,5 +1,5 @@
 using Domain.Abstractions.Repositories;
-using Domain.Aggregates.RoomAggregate;
+using Domain.Aggregates.Room;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 

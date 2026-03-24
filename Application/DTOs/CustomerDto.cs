@@ -1,6 +1,6 @@
 namespace Application.DTOs;
 
-using Domain.Aggregates.CustomerAggregate;
+using Domain.Aggregates.Customer;
 public class CustomerDto
 {
     public CustomerDto(Customer customer)

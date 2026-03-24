@@ -1,6 +1,6 @@
 namespace Domain.Abstractions.Repositories;
 
-using Domain.Aggregates.BookingAggregate;
+using Domain.Aggregates.Booking;
 
 public interface IPaymentRepository : IRepositoryBase<PaymentRecord, int>
 {

@@ -1,5 +1,5 @@
 using Domain.Abstractions.Repositories;
-using Domain.Aggregates.CustomerAggregate;
+using Domain.Aggregates.Customer;
 
 namespace Application.Services;
 

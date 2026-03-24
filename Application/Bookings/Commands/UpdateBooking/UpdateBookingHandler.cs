@@ -1,4 +1,4 @@
-using Domain.Aggregates.BookingAggregate;
+using Domain.Aggregates.Booking;
 using Domain.Exceptions;
 using Domain.Enums;
 using Application.DTOs;

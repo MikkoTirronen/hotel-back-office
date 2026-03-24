@@ -1,4 +1,4 @@
-using Domain.Aggregates.BookingAggregate;
+using Domain.Aggregates.Booking;
 using Domain.Enums;
 using Application.DTOs;
 namespace Application.Bookings.Commands.UpdateBooking;
