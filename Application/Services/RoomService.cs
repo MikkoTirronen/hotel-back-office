@@ -14,14 +14,13 @@ public class RoomService
     }
 
     public async Task<int> CreateRoomAsync(
-        string roomNumber,
-        RoomType type,
-        int baseCapacity,
-        int maxExtraBeds,
-        decimal pricePerNight)
+    string roomNumber,
+    RoomType type,
+    int baseCapacity,
+    int maxExtraBeds,
+    decimal pricePerNight)
     {
         var room = new Room(
-            roomId: 0,
             roomNumber: roomNumber,
             type: type,
             baseCapacity: baseCapacity,
@@ -32,7 +31,7 @@ public class RoomService
         await _roomRepo.CreateAsync(room);
         await _roomRepo.SaveAsync();
 
-        return room.RoomId;
+        return room.RoomId; // EF Core will populate RoomId after SaveAsync
     }
 
     public async Task UpdateRoomAsync(

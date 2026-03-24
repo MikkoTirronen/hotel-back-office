@@ -38,4 +38,11 @@ app.UseSwaggerUI();
 
 app.MapControllers();
 
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<HotelDbContext>();
+    DbSeeder.SeedDatabase(context);
+}
+
 app.Run();

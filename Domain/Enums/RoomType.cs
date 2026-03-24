@@ -1,4 +1,4 @@
 namespace Domain.Enums
 {
-    public enum RoomType { Single = 1, Double = 2 }
+    public enum RoomType { Standard = 1, Deluxe = 2, Suite = 3, }
 }
