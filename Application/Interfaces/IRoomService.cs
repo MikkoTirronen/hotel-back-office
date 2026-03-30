@@ -1,7 +1,7 @@
 using Domain.Aggregates.Room;
 using Domain.Enums;
 
-namespace Application.Services
+namespace Application.Interfaces
 {
     public interface IRoomService
     {

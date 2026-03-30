@@ -1,6 +1,6 @@
 using Domain.Aggregates.Customer;
 
-namespace Application.Services
+namespace Application.Interfaces
 {
     public interface ICustomerService
     {
