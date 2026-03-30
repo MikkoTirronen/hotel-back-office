@@ -4,7 +4,7 @@ using Domain.Enums;
 
 namespace Application.Services;
 
-public class RoomService
+public class RoomService: IRoomService
 {
     private readonly IRoomRepository _roomRepo;
 
@@ -31,7 +31,7 @@ public class RoomService
         await _roomRepo.CreateAsync(room);
         await _roomRepo.SaveAsync();
 
-        return room.RoomId; // EF Core will populate RoomId after SaveAsync
+        return room.RoomId;
     }
 
     public async Task UpdateRoomAsync(

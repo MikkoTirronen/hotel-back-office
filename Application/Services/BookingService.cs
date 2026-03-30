@@ -1,8 +1,10 @@
 using Application.DTOs;
+using Application.Interfaces;
 using Domain.Abstractions.Repositories;
 using Domain.Aggregates.Booking;
 
-public class BookingService
+
+public class BookingService : IBookingService
 {
     private readonly IBookingRepository _bookingRepo;
     private readonly ICustomerRepository _customerRepo;

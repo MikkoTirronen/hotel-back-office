@@ -1,3 +1,4 @@
+using Application.Interfaces;
 using Application.Services;
 using Domain.Abstractions.Repositories;
 using Infrastructure.Persistence;
@@ -16,9 +17,9 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 
 // --- Application Services ---
-builder.Services.AddScoped<BookingService>();
-builder.Services.AddScoped<CustomerService>();
-builder.Services.AddScoped<RoomService>();
+builder.Services.AddScoped<IBookingService,BookingService>();
+builder.Services.AddScoped<ICustomerService,CustomerService>();
+builder.Services.AddScoped<IRoomService,RoomService>();
 
 // --- Controllers & Swagger ---
 builder.Services.AddControllers();

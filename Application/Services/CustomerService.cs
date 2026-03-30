@@ -3,7 +3,7 @@ using Domain.Aggregates.Customer;
 
 namespace Application.Services;
 
-public class CustomerService
+public class CustomerService: ICustomerService
 {
     private readonly ICustomerRepository _customerRepo;
 
