@@ -19,7 +19,7 @@ public class Invoice
         IssueDate = issueDate;
     }
 
-    public void UpdateAmountDue(decimal newAmount)
+    public void UpdateAmountDue(decimal newAmount) 
     {
         if (newAmount < 0)
             throw new DomainException("Invoice amount cannot be negative");

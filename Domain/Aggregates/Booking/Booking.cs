@@ -29,6 +29,11 @@ public class Booking
         Status = BookingStatus.Pending;
         _invoice = null;
     }
+
+    public static Booking Create(int roomId, int customerId, DateTime startDate, DateTime endDate, int numPersons, int extraBedsCount = 0)
+    {
+        return new Booking(roomId, customerId, startDate, endDate, numPersons, extraBedsCount);
+    }
     public void UpdateDates(DateTime start, DateTime end)
     {
         if (end <= start)
@@ -80,19 +85,6 @@ public class Booking
 
         Status = BookingStatus.Confirmed;
     }
-
-    // public void Confirm(decimal pricePerNight)
-    // {
-    //     if (Status != BookingStatus.Pending)
-    //         throw new DomainException("Only pending bookings can be confirmed.");
-
-    //     int nights = (EndDate - StartDate).Days;
-    //     if (nights <= 0) nights = 1;
-
-    //     TotalPrice = pricePerNight * nights;
-
-    //     Status = BookingStatus.Confirmed;
-    // }
 
     public void GenerateInvoice(DateTime issueDate)
     {

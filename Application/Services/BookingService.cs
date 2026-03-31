@@ -29,7 +29,7 @@ public class BookingService : IBookingService
         var customerExists = await _customerRepo.GetByIdAsync(dto.CustomerId) != null;
         if (!customerExists) throw new Exception("Customer not found");
 
-        var booking = new Booking(
+        var booking = Booking.Create(
             dto.RoomId,
             dto.CustomerId,
             dto.StartDate,
