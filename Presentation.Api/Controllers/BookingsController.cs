@@ -1,5 +1,6 @@
 using Application.Services;
 using Application.DTOs;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Api.Controllers;
@@ -8,12 +9,12 @@ namespace Presentation.Api.Controllers;
 [Route("api/bookings")]
 public class BookingsController : ControllerBase
 {
-    private readonly BookingService _bookingService;
-    private readonly RoomService _roomService;
+    private readonly IBookingService _bookingService;
+    private readonly IRoomService _roomService;
 
     public BookingsController(
-        BookingService bookingService,
-        RoomService roomService)
+        IBookingService bookingService,
+        IRoomService roomService)
     {
         _bookingService = bookingService;
         _roomService = roomService;
@@ -50,7 +51,7 @@ public class BookingsController : ControllerBase
             dto.StartDate,
             dto.EndDate,
             dto.NumPersons ?? 1,
-            dto.ExtraBedsCount?? 0
+            dto.ExtraBedsCount ?? 0
         );
 
         return NoContent();

@@ -1,3 +1,4 @@
+using Application.Interfaces;
 using Domain.Abstractions.Repositories;
 using Domain.Aggregates.Customer;
 
