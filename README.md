@@ -52,7 +52,7 @@ docker-compose up -d
 * Database credentials (for demo purposes only)
   * Username: sa
   * Password: Super@86secret
-* SQL Server will be available on ````localhost:1433```
+* SQL Server will be available on ```localhost:1433```
 * Data is persisted in the Docker volume ```sql_data```
 
   You can verify the container is running:
