@@ -125,18 +125,3 @@ docker-compose down
 dotnet ef database drop --project Infrastructure --startup-project Presentation.Api
 dotnet ef database update --project Infrastructure --startup-project Presentation.Api
 ```
-
-## Project Structure
-* Domain/ -> Aggregates, Value Objects, Entities
-* Application/ -> Services, DTOs, Interfaces
-* Infrastructure/ -> Repositories, Database context, EF Core Setup
-* Presentation/ -> ASP.NET Core Web API controllers
-
-## Features
-* Create, update, and cancel bookings
-* Manage customers and rooms
-* Generate invoices for bookings
-* Clean Architecture and SOLID principles
-* Application Service pattern with Result pattern for business logic (example)
-
-
