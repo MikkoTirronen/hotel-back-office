@@ -1,7 +1,9 @@
+using Application.Common;
 using Application.DTOs;
 using Application.Interfaces;
 using Domain.Abstractions.Repositories;
 using Domain.Aggregates.Booking;
+using Domain.Exceptions;
 
 
 public class BookingService : IBookingService
@@ -20,32 +22,71 @@ public class BookingService : IBookingService
         _roomRepo = roomRepo;
     }
 
-    public async Task<int> CreateBookingAsync(BookingDto dto, CancellationToken ct)
+    // public async Task<int> CreateBookingAsync(BookingDto dto, CancellationToken ct)
+    // {
+    //     var room = await _roomRepo.GetByIdAsync(dto.RoomId, ct)
+    //         ?? throw new Exception("Room not found");
+
+    //     // Optionally check customer exists
+    //     var customerExists = await _customerRepo.GetByIdAsync(dto.CustomerId, ct) != null;
+    //     if (!customerExists) throw new Exception("Customer not found");
+
+    //     var booking = Booking.Create(
+    //         dto.RoomId,
+    //         dto.CustomerId,
+    //         dto.StartDate,
+    //         dto.EndDate,
+    //         dto.NumPersons,
+    //         dto.ExtraBedsCount ?? 0
+    //     );
+
+    //     booking.CalculateTotal(room.PricePerNight);
+
+    //     await _bookingRepo.CreateAsync(booking);
+    //     await _bookingRepo.SaveAsync();
+
+    //     return booking.BookingId;
+    // }
+    public async Task<Result<int>> CreateBookingAsync(BookingDto dto, CancellationToken ct)
     {
-        var room = await _roomRepo.GetByIdAsync(dto.RoomId, ct)
-            ?? throw new Exception("Room not found");
+        // 1. Check room exists
+        var room = await _roomRepo.GetByIdAsync(dto.RoomId, ct);
+        if (room == null)
+            return Result<int>.Fail("Room not found");
 
-        // Optionally check customer exists
-        var customerExists = await _customerRepo.GetByIdAsync(dto.CustomerId, ct) != null;
-        if (!customerExists) throw new Exception("Customer not found");
+        // 2. Check customer exists
+        var customer = await _customerRepo.GetByIdAsync(dto.CustomerId, ct);
+        if (customer == null)
+            return Result<int>.Fail("Customer not found");
 
-        var booking = Booking.Create(
-            dto.RoomId,
-            dto.CustomerId,
-            dto.StartDate,
-            dto.EndDate,
-            dto.NumPersons,
-            dto.ExtraBedsCount ?? 0
-        );
+        // 3. Create booking aggregate
+        Booking booking;
+        try
+        {
+            booking = Booking.Create(
+                dto.RoomId,
+                dto.CustomerId,
+                dto.StartDate,
+                dto.EndDate,
+                dto.NumPersons,
+                dto.ExtraBedsCount ?? 0
+            );
+        }
+        catch (DomainException ex)
+        {
+            return Result<int>.Fail(ex.Message);
+        }
 
+        // 4. Calculate total price
         booking.CalculateTotal(room.PricePerNight);
 
+        // 5. Persist booking
         await _bookingRepo.CreateAsync(booking);
         await _bookingRepo.SaveAsync();
 
-        return booking.BookingId;
+        // 6. Return booking ID as success
+        return Result<int>.Success(booking.BookingId);
     }
-
     public async Task<Booking?> GetBookingByIdAsync(int bookingId, CancellationToken ct)
     {
         return await _bookingRepo.GetBookingDetailsAsync(bookingId, ct);

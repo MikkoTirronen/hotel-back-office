@@ -23,8 +23,11 @@ public class BookingsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateBooking([FromBody] BookingDto dto, CancellationToken ct)
     {
-        var bookingId = await _bookingService.CreateBookingAsync(dto, ct);
-        return Ok(new { BookingId = bookingId });
+        var result = await _bookingService.CreateBookingAsync(dto, ct);
+        if (!result.IsSuccess)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
     }
 
     [HttpGet("{id}")]
