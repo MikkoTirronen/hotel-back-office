@@ -6,6 +6,19 @@ It allows managing **bookings, customers, rooms, and invoices**. The backend is 
 
 The repository includes **Docker configuration** to run a SQL Server database for local development.
 
+## Features
+* Create, update, and cancel bookings
+* Manage customers and rooms
+* Generate invoices for bookings
+* Clean Architecture and SOLID principles
+* Application Service pattern with Result pattern for business logic (example)
+  
+## Project Structure
+* Domain/ -> Aggregates, Value Objects, Entities
+* Application/ -> Services, DTOs, Interfaces
+* Infrastructure/ -> Repositories, Database context, EF Core Setup
+* Presentation/ -> ASP.NET Core Web API controllers
+
 ---
 
 ## Quick Start
