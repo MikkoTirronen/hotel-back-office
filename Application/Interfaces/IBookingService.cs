@@ -5,9 +5,9 @@ namespace Application.Interfaces
 {
     public interface IBookingService
     {
-        Task<int> CreateBookingAsync(BookingDto dto);
-        Task<Booking?> GetBookingByIdAsync(int bookingId);
-        Task CancelBookingAsync(int bookingId);
-        Task UpdateBookingAsync(int bookingId, DateTime newStart, DateTime newEnd, int guests, int extraBeds = 0);
+        Task<int> CreateBookingAsync(BookingDto dto, CancellationToken ct);
+        Task<Booking?> GetBookingByIdAsync(int bookingId, CancellationToken ct);
+        Task CancelBookingAsync(int bookingId, CancellationToken ct);
+        Task UpdateBookingAsync(int bookingId, DateTime newStart, DateTime newEnd, int guests, int extraBeds = 0, CancellationToken ct = default);
     }
 }

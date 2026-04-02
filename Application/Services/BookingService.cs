@@ -20,16 +20,16 @@ public class BookingService : IBookingService
         _roomRepo = roomRepo;
     }
 
-    public async Task<int> CreateBookingAsync(BookingDto dto)
+    public async Task<int> CreateBookingAsync(BookingDto dto, CancellationToken ct)
     {
-        var room = await _roomRepo.GetByIdAsync(dto.RoomId)
+        var room = await _roomRepo.GetByIdAsync(dto.RoomId, ct)
             ?? throw new Exception("Room not found");
 
         // Optionally check customer exists
-        var customerExists = await _customerRepo.GetByIdAsync(dto.CustomerId) != null;
+        var customerExists = await _customerRepo.GetByIdAsync(dto.CustomerId, ct) != null;
         if (!customerExists) throw new Exception("Customer not found");
 
-        var booking = new Booking(
+        var booking = Booking.Create(
             dto.RoomId,
             dto.CustomerId,
             dto.StartDate,
@@ -38,24 +38,20 @@ public class BookingService : IBookingService
             dto.ExtraBedsCount ?? 0
         );
 
-        // Calculate total price from room rate
         booking.CalculateTotal(room.PricePerNight);
 
-        // Persist the booking only
         await _bookingRepo.CreateAsync(booking);
         await _bookingRepo.SaveAsync();
 
         return booking.BookingId;
     }
 
-    // --- Get booking details ---
-    public async Task<Booking?> GetBookingByIdAsync(int bookingId)
+    public async Task<Booking?> GetBookingByIdAsync(int bookingId, CancellationToken ct)
     {
-        return await _bookingRepo.GetBookingDetailsAsync(bookingId);
+        return await _bookingRepo.GetBookingDetailsAsync(bookingId, ct);
     }
 
-    // --- Cancel a booking ---
-    public async Task CancelBookingAsync(int bookingId)
+    public async Task CancelBookingAsync(int bookingId, CancellationToken ct)
     {
         var booking = await _bookingRepo.GetByIdAsync(bookingId)
                       ?? throw new Exception("Booking not found");
@@ -66,14 +62,13 @@ public class BookingService : IBookingService
         await _bookingRepo.SaveAsync();
     }
 
-    // --- Update a booking ---
-    public async Task UpdateBookingAsync(int bookingId, DateTime newStart, DateTime newEnd, int guests, int extraBeds = 0)
+    public async Task UpdateBookingAsync(int bookingId, DateTime newStart, DateTime newEnd, int guests, int extraBeds = 0, CancellationToken ct = default)
     {
         var booking = await _bookingRepo.GetByIdAsync(bookingId)
                       ?? throw new Exception("Booking not found");
 
         // Check room availability for the new dates
-        var availableRooms = await _roomRepo.GetAvailableRoomsAsync(newStart, newEnd);
+        var availableRooms = await _roomRepo.GetAvailableRoomsAsync(newStart, newEnd, ct);
         if (!availableRooms.Any(r => r.RoomId == booking.RoomId))
         {
             throw new Exception("Room not available for the new dates");
@@ -84,11 +79,11 @@ public class BookingService : IBookingService
         booking.UpdateGuests(guests, extraBeds);
 
         // Recalculate total price (assuming room price hasn't changed)
-        var room = await _roomRepo.GetByIdAsync(booking.RoomId)
+        var room = await _roomRepo.GetByIdAsync(booking.RoomId, ct)
                    ?? throw new Exception("Room not found");
         booking.CalculateTotal(room.PricePerNight);
 
-        await _bookingRepo.UpdateAsync(booking);
-        await _bookingRepo.SaveAsync();
+        await _bookingRepo.UpdateAsync(booking, ct);
+        await _bookingRepo.SaveAsync(ct);
     }
 }

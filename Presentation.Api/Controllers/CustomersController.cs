@@ -16,30 +16,30 @@ public class CustomerController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCustomer([FromBody] CustomerDto dto)
+    public async Task<IActionResult> CreateCustomer([FromBody] CustomerDto dto, CancellationToken ct)
     {
-        var id = await _customerService.CreateCustomerAsync(dto.Name, dto.Email, dto.Phone);
+        var id = await _customerService.CreateCustomerAsync(dto.Name, dto.Email, dto.Phone, ct);
         return Ok(new { CustomerId = id });
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateCustomer(int id, [FromBody] CustomerDto dto)
+    public async Task<IActionResult> UpdateCustomer(int id, [FromBody] CustomerDto dto, CancellationToken ct )
     {
         await _customerService.UpdateCustomerAsync(id, dto.Name, dto.Email, dto.Phone);
         return NoContent();
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken ct)
     {
-        var customers = await _customerService.GetAllCustomersAsync();
+        var customers = await _customerService.GetAllCustomersAsync(ct);
         return Ok(customers);
     }
 
     [HttpGet("search")]
-    public async Task<IActionResult> Search([FromQuery] string search)
+    public async Task<IActionResult> Search([FromQuery] string search, CancellationToken ct)
     {
-        var customers = await _customerService.SearchCustomersAsync(search);
+        var customers = await _customerService.SearchCustomersAsync(search, ct);
         return Ok(customers);
     }
 }

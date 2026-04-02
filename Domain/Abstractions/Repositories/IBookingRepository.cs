@@ -3,7 +3,7 @@ namespace Domain.Abstractions.Repositories;
 using Domain.Aggregates.Booking;
 public interface IBookingRepository : IRepositoryBase<Booking, int>
 {
-    Task<Booking?> GetBookingDetailsAsync(int bookingId);
+    Task<Booking?> GetBookingDetailsAsync(int bookingId, CancellationToken ct = default);
 
     Task<IReadOnlyList<Booking>> GetBookingsInDateRangeAsync(
     DateTime start,
@@ -19,5 +19,5 @@ public interface IBookingRepository : IRepositoryBase<Booking, int>
         int? guests,
         CancellationToken ct = default);
 
-    Task<IReadOnlyList<Booking>> GetBookingsWithUnpaidInvoicesOlderThanAsync(DateTime threshold);
+    Task<IReadOnlyList<Booking>> GetBookingsWithUnpaidInvoicesOlderThanAsync(DateTime threshold, CancellationToken ct = default);
 }

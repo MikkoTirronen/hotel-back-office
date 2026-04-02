@@ -28,12 +28,12 @@ public class BookingRepository : IBookingRepository
             .FirstOrDefaultAsync(b => b.BookingId == id, ct);
     }
 
-    public async Task<Booking?> GetBookingDetailsAsync(int bookingId)
+    public async Task<Booking?> GetBookingDetailsAsync(int bookingId, CancellationToken ct = default)
     {
         return await _context.Bookings
             .Include(b => b.Invoice)
             .AsNoTracking()
-            .FirstOrDefaultAsync(b => b.BookingId == bookingId);
+            .FirstOrDefaultAsync(b => b.BookingId == bookingId, ct);
     }
 
     public async Task<IReadOnlyList<Booking>> GetBookingsInDateRangeAsync(DateTime start, DateTime end, CancellationToken ct = default)
@@ -80,12 +80,12 @@ public class BookingRepository : IBookingRepository
         return await query.AsNoTracking().ToListAsync(ct);
     }
 
-    public async Task<IReadOnlyList<Booking>> GetBookingsWithUnpaidInvoicesOlderThanAsync(DateTime threshold)
+    public async Task<IReadOnlyList<Booking>> GetBookingsWithUnpaidInvoicesOlderThanAsync(DateTime threshold, CancellationToken ct = default)
     {
         return await _context.Bookings
             .Where(b => b.Invoice != null && !b.Invoice.Status.Equals("Paid") && b.Invoice.IssueDate < threshold)
             .AsNoTracking()
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
     public async Task CreateAsync(Booking entity, CancellationToken ct = default)

@@ -29,6 +29,10 @@ public class Booking
         Status = BookingStatus.Pending;
         _invoice = null;
     }
+    public static Booking Create(int roomId, int customerId, DateTime startDate, DateTime endDate, int numPersons, int extraBedsCount = 0)
+    {
+        return new Booking(roomId, customerId, startDate, endDate, numPersons, extraBedsCount);
+    }
     public void UpdateDates(DateTime start, DateTime end)
     {
         if (end <= start)
