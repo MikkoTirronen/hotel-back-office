@@ -5,7 +5,7 @@ using Domain.Enums;
 
 namespace Application.Services;
 
-public class RoomService: IRoomService
+public class RoomService : IRoomService
 {
     private readonly IRoomRepository _roomRepo;
 
@@ -19,7 +19,8 @@ public class RoomService: IRoomService
     RoomType type,
     int baseCapacity,
     int maxExtraBeds,
-    decimal pricePerNight)
+    decimal pricePerNight,
+    CancellationToken ct = default)
     {
         var room = new Room(
             roomNumber: roomNumber,
@@ -42,7 +43,8 @@ public class RoomService: IRoomService
         int? baseCapacity = null,
         int? maxExtraBeds = null,
         decimal? pricePerNight = null,
-        bool? active = null)
+        bool? active = null,
+        CancellationToken ct = default)
     {
         var room = await _roomRepo.GetByIdAsync(roomId)
                    ?? throw new Exception("Room not found");
@@ -62,39 +64,62 @@ public class RoomService: IRoomService
         if (active.HasValue)
             room.SetActive(active.Value);
 
-        await _roomRepo.UpdateAsync(room);
-        await _roomRepo.SaveAsync();
+        await _roomRepo.UpdateAsync(room, ct);
+        await _roomRepo.SaveAsync(ct);
+    }
+    public async Task<Room?> GetRoomByIdAsync(int roomId, CancellationToken ct = default)
+    {
+        return await _roomRepo.GetByIdAsync(roomId, ct);
+    }
+    public async Task<IReadOnlyList<Room>> GetAllRoomsAsync(CancellationToken ct = default)
+    {
+        return await _roomRepo.GetAllAsync(ct);
     }
 
-    public async Task<IReadOnlyList<Room>> GetAllRoomsAsync()
+    public async Task<IReadOnlyList<Room>> GetAvailableRoomsAsync(DateTime startDate, DateTime endDate, CancellationToken ct = default)
     {
-        return await _roomRepo.GetAllAsync();
+        return await _roomRepo.GetAvailableRoomsAsync(startDate, endDate, ct);
     }
 
-    public async Task<IReadOnlyList<Room>> GetAvailableRoomsAsync(DateTime startDate, DateTime endDate)
+    public async Task AddAmenityAsync(int roomId, string amenity, CancellationToken ct = default)
     {
-        return await _roomRepo.GetAvailableRoomsAsync(startDate, endDate);
-    }
-
-    public async Task AddAmenityAsync(int roomId, string amenity)
-    {
-        var room = await _roomRepo.GetByIdAsync(roomId)
+        var room = await _roomRepo.GetByIdAsync(roomId, ct)
                    ?? throw new Exception("Room not found");
 
         room.AddAmenity(amenity);
 
-        await _roomRepo.UpdateAsync(room);
-        await _roomRepo.SaveAsync();
+        await _roomRepo.UpdateAsync(room, ct);
+        await _roomRepo.SaveAsync(ct);
     }
 
-    public async Task RemoveAmenityAsync(int roomId, string amenity)
+    public async Task RemoveAmenityAsync(int roomId, string amenity, CancellationToken ct = default)
     {
-        var room = await _roomRepo.GetByIdAsync(roomId)
+        var room = await _roomRepo.GetByIdAsync(roomId, ct)
                    ?? throw new Exception("Room not found");
 
         room.RemoveAmenity(amenity);
 
-        await _roomRepo.UpdateAsync(room);
-        await _roomRepo.SaveAsync();
+        await _roomRepo.UpdateAsync(room, ct);
+        await _roomRepo.SaveAsync(ct);
+    }
+    public async Task DeleteRoomAsync(int roomId, CancellationToken ct = default)
+    {
+        var room = await _roomRepo.GetByIdAsync(roomId, ct)
+                   ?? throw new Exception("Room not found");
+
+        room.SetActive(false);
+
+        await _roomRepo.UpdateAsync(room, ct);
+        await _roomRepo.SaveAsync(ct);
+    }
+    public async Task SetRoomActiveStatusAsync(int roomId, bool isActive, CancellationToken ct = default)
+    {
+        var room = await _roomRepo.GetByIdAsync(roomId, ct)
+                   ?? throw new Exception("Room not found");
+
+        room.SetActive(isActive);
+
+        await _roomRepo.UpdateAsync(room, ct);
+        await _roomRepo.SaveAsync(ct);
     }
 }

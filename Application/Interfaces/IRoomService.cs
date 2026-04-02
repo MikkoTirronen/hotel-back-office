@@ -10,7 +10,8 @@ namespace Application.Interfaces
             RoomType type,
             int baseCapacity,
             int maxExtraBeds,
-            decimal pricePerNight);
+            decimal pricePerNight,
+            CancellationToken ct);
 
         Task UpdateRoomAsync(
             int roomId,
@@ -19,14 +20,18 @@ namespace Application.Interfaces
             int? baseCapacity = null,
             int? maxExtraBeds = null,
             decimal? pricePerNight = null,
-            bool? active = null);
+            bool? active = null,
+            CancellationToken ct = default);
 
-        Task<IReadOnlyList<Room>> GetAllRoomsAsync();
+        Task<Room?> GetRoomByIdAsync(int roomId, CancellationToken ct = default);
+        Task<IReadOnlyList<Room>> GetAllRoomsAsync(CancellationToken ct = default);
 
-        Task<IReadOnlyList<Room>> GetAvailableRoomsAsync(DateTime startDate, DateTime endDate);
+        Task<IReadOnlyList<Room>> GetAvailableRoomsAsync(DateTime startDate, DateTime endDate, CancellationToken ct = default);
 
-        Task AddAmenityAsync(int roomId, string amenity);
+        Task AddAmenityAsync(int roomId, string amenity, CancellationToken ct = default);
 
-        Task RemoveAmenityAsync(int roomId, string amenity);
+        Task RemoveAmenityAsync(int roomId, string amenity, CancellationToken ct = default);
+        Task DeleteRoomAsync(int roomId, CancellationToken ct = default);
+        Task SetRoomActiveStatusAsync(int roomId, bool isActive, CancellationToken ct = default);
     }
 }
