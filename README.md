@@ -16,6 +16,7 @@ Follow these steps to get the project running locally:
 git clone https://github.com/mikkotirronen/hotel-backoffice.git
 cd hotel-backoffice
 docker-compose up -d
+dotnet ef database update --project Infrastructure --startup-project Presetation.Api
 cd Presentation
 dotnet run
 ```
@@ -56,21 +57,60 @@ docker ps
   }
 }
 ```
-### 4. Run the backend API
 
-Navigate to precentation project and run the API:
+### 4. Apply migrations
+
+Run the following commands from the solution root:
+
+```bash
+dotnet ef database update --project Infrastructure --startup-project Presentation.Api
+```
+
+This will create the database and apply all migrations.
+
+---
+
+### 5. Run the application
+
+```bash
+dotnet run --project Presentation.Api
+```
+
+---
+
+### 6. Run the backend API
+
+Navigate to presentation project and run the API:
 ```Bash
   cd Presentation
   dotnet run
 ```
 
-### 5. Stop the project
+### 7. Open Swagger
+
+Navigate to:
+
+```
+https://localhost:5041/swagger
+```
+or
+```
+https://localhost:<port>/swagger
+```
+
+### 8. Stop the project
 
 ```Bash
 docker-compose down
 ```
 * The sql-data Docker volume preserves your database between restarts.
 
+### 9. Reset Database
+
+```Bash
+dotnet ef database drop --project Infrastructure --startup-project Presentation.Api
+dotnet ef database update --project Infrastructure --startup-project Presentation.Api
+```
 
 ## Project Structure
 * Domain/ -> Aggregates, Value Objects, Entities
