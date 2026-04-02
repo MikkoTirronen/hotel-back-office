@@ -1,3 +1,6 @@
+using Domain.Aggregates.Room;
+using Domain.Enums;
+
 namespace Application.DTOs;
 
 public class UpdateRoomDto
@@ -8,4 +11,5 @@ public class UpdateRoomDto
     public int? MaxExtraBeds { get; set; }
     public string? Amenities { get; set; }
     public bool? Active { get; set; }
+    public RoomType Type { get; set; }
 }
