@@ -13,7 +13,7 @@ The repository includes **Docker configuration** to run a SQL Server database fo
 Follow these steps to get the project running locally:
 
 ```Bash
-git clone https://github.com/mikkotirronen/hotel-backoffice
+git clone https://github.com/mikkotirronen/hotel-backoffice.git
 cd hotel-backoffice
 docker-compose up -d
 cd Presentation
