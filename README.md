@@ -6,6 +6,19 @@ It allows managing **bookings, customers, rooms, and invoices**. The backend is 
 
 The repository includes **Docker configuration** to run a SQL Server database for local development.
 
+## Features
+* Create, update, and cancel bookings
+* Manage customers and rooms
+* Generate invoices for bookings
+* Clean Architecture and SOLID principles
+* Application Service pattern with Result pattern for business logic (example)
+  
+## Project Structure
+* Domain/ -> Aggregates, Value Objects, Entities
+* Application/ -> Services, DTOs, Interfaces
+* Infrastructure/ -> Repositories, Database context, EF Core Setup
+* Presentation/ -> ASP.NET Core Web API controllers
+
 ---
 
 ## Quick Start
@@ -16,6 +29,7 @@ Follow these steps to get the project running locally:
 git clone https://github.com/mikkotirronen/hotel-backoffice.git
 cd hotel-backoffice
 docker-compose up -d
+dotnet ef database update --project Infrastructure --startup-project Presetation.Api
 cd Presentation
 dotnet run
 ```
@@ -24,7 +38,8 @@ dotnet run
 
 ```Bash
 git clone https://github.com/your-username/hotel-backoffice.git
-cd hotel-backoffice```
+cd hotel-backoffice
+```
 
 ### 2. Start the SQL Server database with Docker
 
@@ -37,13 +52,13 @@ docker-compose up -d
 * Database credentials (for demo purposes only)
   * Username: sa
   * Password: Super@86secret
-* SQL Server will be available on ````localhost:1433```
+* SQL Server will be available on ```localhost:1433```
 * Data is persisted in the Docker volume ```sql_data```
 
   You can verify the container is running:
-  ```Bash
+```Bash
 docker ps
-  ```
+```
 
 ### 3. Update the backend connection string (optional)
 
@@ -56,21 +71,60 @@ docker ps
   }
 }
 ```
-### 4. Run the backend API
 
-Navigate to precentation project and run the API:
+### 4. Apply migrations
+
+Run the following commands from the solution root:
+
+```bash
+dotnet ef database update --project Infrastructure --startup-project Presentation.Api
+```
+
+This will create the database and apply all migrations.
+
+---
+
+### 5. Run the application
+
+```bash
+dotnet run --project Presentation.Api
+```
+
+---
+
+### 6. Run the backend API
+
+Navigate to presentation project and run the API:
 ```Bash
   cd Presentation
   dotnet run
 ```
 
-### 5. Stop the project
+### 7. Open Swagger
+
+Navigate to:
+
+```
+https://localhost:5041/swagger
+```
+or
+```
+https://localhost:<port>/swagger
+```
+
+### 8. Stop the project
 
 ```Bash
 docker-compose down
 ```
 * The sql-data Docker volume preserves your database between restarts.
 
+### 9. Reset Database
+
+```Bash
+dotnet ef database drop --project Infrastructure --startup-project Presentation.Api
+dotnet ef database update --project Infrastructure --startup-project Presentation.Api
+```
 
 ## Project Structure
 * Domain/ -> Aggregates, Value Objects, Entities
