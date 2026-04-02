@@ -25,7 +25,8 @@ dotnet run
 
 ```Bash
 git clone https://github.com/your-username/hotel-backoffice.git
-cd hotel-backoffice```
+cd hotel-backoffice
+```
 
 ### 2. Start the SQL Server database with Docker
 
