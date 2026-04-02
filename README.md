@@ -43,9 +43,9 @@ docker-compose up -d
 * Data is persisted in the Docker volume ```sql_data```
 
   You can verify the container is running:
-  ```Bash
+```Bash
 docker ps
-  ```
+```
 
 ### 3. Update the backend connection string (optional)
 
