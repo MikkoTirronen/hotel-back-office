@@ -18,7 +18,6 @@ public class RoomsController : ControllerBase
     }
 
     [HttpGet]
-    [HttpGet]
     public async Task<ActionResult<IEnumerable<RoomDto>>> GetAllRooms(CancellationToken ct)
     {
         var rooms = await _roomService.GetAllRoomsAsync(ct);
@@ -78,6 +77,8 @@ public class RoomsController : ControllerBase
         await _roomService.DeleteRoomAsync(id, ct);
         return NoContent();
     }
+    
+    [HttpPut("{id:int}/active")]
     public async Task<IActionResult> SetRoomActiveStatus(int id, [FromQuery] bool isActive, CancellationToken ct)
     {
         await _roomService.SetRoomActiveStatusAsync(id, isActive, ct);
