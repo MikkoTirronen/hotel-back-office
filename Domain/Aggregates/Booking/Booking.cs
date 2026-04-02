@@ -85,19 +85,6 @@ public class Booking
         Status = BookingStatus.Confirmed;
     }
 
-    // public void Confirm(decimal pricePerNight)
-    // {
-    //     if (Status != BookingStatus.Pending)
-    //         throw new DomainException("Only pending bookings can be confirmed.");
-
-    //     int nights = (EndDate - StartDate).Days;
-    //     if (nights <= 0) nights = 1;
-
-    //     TotalPrice = pricePerNight * nights;
-
-    //     Status = BookingStatus.Confirmed;
-    // }
-
     public void GenerateInvoice(DateTime issueDate)
     {
         if (_invoice != null)
